@@ -1,3 +1,5 @@
+
+<div class="container">
 <footer>
     <h4>Contact</h4>
     <p>Gelre-Check-In <br>
@@ -11,3 +13,4 @@
        <br>
     <p> <a href="Privacy-Verklaring.php">Privacy Verklaring</a> </p>
 </footer>
+</div>
