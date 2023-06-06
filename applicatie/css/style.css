@@ -19,10 +19,49 @@
   align-items: center;
 }
 
+.navbar input{
+  border: 0;
+  padding: 10px 8px;
+  outline: none;
+  color: white;
+ background: linear-gradient(to right, #fb5283, #ff3527 );
+  border-radius: 6px;
+  cursor: pointer;
+  transition: width 0.5s;
+}
+
+.navbar input:hover{
+  width: 180px;
+}
+
+.navbar input::-ms-input-placeholder{
+  color: #fff;
+}
+
 .logo{
   width:50px;
   cursor: pointer;
-  margin: 30px 0;
+  margin: 30px 10px;
+}
+
+.wrapper{
+  
+  display: flex;
+  overflow-x: auto;
+}
+
+.wrapper::-webkit-scrollbar{ /* for responsiveness */
+  width: 0;
+}
+
+.wrapper .item{
+  min-width: 140px;
+  height: 180px;
+  line-height: 110px;
+  text-align: center;
+  background-color: #ddd;
+  margin-right: 6px;
+  border-radius: 6px ;
 }
 
 .menu-icon{
@@ -99,11 +138,25 @@ button{
   transition: width 0.5s;
 }
 
+.h1flights{
+  margin: 0;
+  display: inline-block;
+}
+
+.buttonFlights{
+ float: right;
+  width: 180px;
+  margin-bottom: 20px;
+}
+
  button:hover{  /* make this modular maybe? */
   width: 150px;
-  align-items: center;
-  justify-content: space-between;
 }
+
+.buttonFlights:hover{
+  width: 200px;
+}
+
 
 .col-1::after{
   content: '';
@@ -159,7 +212,7 @@ button{
   text-align: center;
 }
 
-@media only screen and (max-width:700px){
+@media only screen and (max-width:1050px){
 
   nav ul{
     width: 100%;
@@ -176,6 +229,7 @@ button{
     margin-bottom: 10px;
   }
 
+  
   nav ul li a{
     color: #fff;
   }
@@ -184,9 +238,40 @@ button{
     display: block;
   }
 
+  .navbar input{
+    background: #fff;
+  }
+
   .row{
     flex-direction: column-reverse;
     margin: 50px 0;
+    margin-top: 200px;
+  }
+}
+
+@media only screen and (max-width:700px){
+
+
+  .buttonFlights{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 120px;
+    margin-bottom: 20px;
+  }
+
+  .buttonFlights:hover{
+    width: 140px;
+  }
+
+  .h1flights{
+    align-items: end;
+  }
+
+  .row{
+    flex-direction: column-reverse;
+    margin: 50px 0;
+    margin-top: 200px;
   }
 
   .col-2{
