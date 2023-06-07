@@ -11,22 +11,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <img src="favicon.ico" class="logo"> 
-            <h4>Welkom insgebruiker </h4>
-            <nav>
-                <ul id="menuList">
-                    <li><input type="text" placeholder="Zoek vlucht..."></li>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="screens/vluchten.php">Vluchten</a></li>
-                    <li><a href="screens/inchecken.php">Inchecken</a></li>
-                    <li><a href="screens/profile.php">Profiel</a></li>
-                    <li><a href="">Uitloggen</a></li> <!-- uitloggen? -->
-                </ul>
-            </nav>
-            <img src="images/menu.png" class="menu-icon"> <!-- figure thi out without using js -->
-        </div>
-
+        <?php include "components/navbar.php" ?>
         <div class="row">
             <div class="col-1">
                 <h2> Gelre Check In</h2>
@@ -44,10 +29,8 @@
                 </div>
             </div>
         </div>
-        
-        
          <h1 class="h1flights">Bekijk Vluchten</h1> 
-         <button type="button" class="buttonFlights">Bekijk alles</button> 
+         <a href="screens/vluchten.php"> <button type="button" class="buttonFlights">Bekijk alles</button> </a>
             <br>
             <br>
             <br>
@@ -65,11 +48,6 @@
             <div class="item">box-11</div>
             <div class="item">box-12</div>
         </div>
-    
-
-        
-        
-
         <div class="social-links"> <!--change these to socials -->
             <img src="images/fb.png">
             <img src="images/ig.png">
@@ -77,6 +55,5 @@
         </div>
     </div>
 </body>
-
-<?php include_once "components/footer.php" ?>
+<?php include "components/footer.php" ?>
 </html>

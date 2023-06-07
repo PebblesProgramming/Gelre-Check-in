@@ -9,6 +9,9 @@
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
-    vluchten
+    <div class="container">
+    <?php include "../components/navbar.php" ?>
+    </div>
 </body>
+<?php include "../components/footer.php" ?>
 </html>

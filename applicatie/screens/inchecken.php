@@ -9,6 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
-    Inchecken
+    <?php include_once "../components/navbar.php" ?>
 </body>
+    <?php include_once "../components/footer.php" ?>
 </html>

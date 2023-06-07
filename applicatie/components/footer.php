@@ -1,16 +1,39 @@
+<link rel="stylesheet" href="css/footer.css">
+<body class="footer-body">
+<footer class="footer">
+  	 <div class="footer-container">
+  	 	<div class="footer-row">
+  	 		<div class="footer-col">
+  	 			<h4>company</h4>
+  	 			<ul class="footer-ul">
+  	 				<li><a href="#">about us</a></li>
+  	 				<li><a href="#">our services</a></li>
+  	 				<li><a href="#">privacy policy</a></li>
+  	 				<li><a href="#">affiliate program</a></li>
+  	 			</ul>
+  	 		</div>
+  	 		<div class="footer-col">
+  	 			<h4>get help</h4>
+  	 			<ul class="footer-ul">
+  	 				<li><a href="#">FAQ</a></li>
+  	 				<li><a href="#">shipping</a></li>
+  	 				<li><a href="#">returns</a></li>
+  	 				<li><a href="#">order status</a></li>
+  	 				<li><a href="#">payment options</a></li>
+  	 			</ul>
+  	 		</div>
+  	 		<div class="footer-col">
+  	 			<h4>online shop</h4>
+  	 			<ul class="footer-ul">
+  	 				<li><a href="#">watch</a></li>
+  	 				<li><a href="#">bag</a></li>
+  	 				<li><a href="#">shoes</a></li>
+  	 				<li><a href="#">dress</a></li>
+  	 			</ul>
+  	 		</div>
+  	 	</div>
+  	 </div>
+  </footer>
+</body>
 
-<div class="container">
-<footer>
-    <h4>Contact</h4>
-    <p>Gelre-Check-In <br>
-       Karperstraat 728 <br>
-       8374 AZ Rotterdam <br> 
-    </p>
-    <br>
-    <h4>Copyright</h4>
-    <p>de Gelre-Check in-service, inclusief alle content die wordt geleverd via de Gelre-Check in-service, <br>
-       wordt beschermd door wetten en verdragen op het gebied van auteursrecht, handelsgeheimen of andere intellectuele-eigendomsrechten.</p>
-       <br>
-    <p> <a href="Privacy-Verklaring.php">Privacy Verklaring</a> </p>
-</footer>
-</div>
+    <!--<p> <a href="screens/privacyverklaring.php">Privacy Verklaring</a> </p>   CHECK IF NECESARRY--> 
