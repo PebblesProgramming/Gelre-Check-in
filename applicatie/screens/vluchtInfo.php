@@ -1,8 +1,3 @@
-<?php
-require_once '../querys/vluchtenquery.php';
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +6,13 @@ require_once '../querys/vluchtenquery.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vluchten</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/vluchten.css">
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
     <div class="container">
-        
     <?php include "../components/navbar.php" ?>
 
-    <h1>Geplande Vluchten</h1>
-  <?php 
-  echo ($html_table);
-  ?>
+ 
     </div>
 </body>
 <?php include "../components/footer.php" ?>

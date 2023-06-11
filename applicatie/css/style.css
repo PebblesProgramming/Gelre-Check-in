@@ -30,6 +30,10 @@
   transition: width 0.5s;
 }
 
+.navbar ::placeholder{
+  color: #fff;
+}
+
 .navbar input:hover{
   width: 180px;
 }
@@ -176,7 +180,7 @@ button{
 }
 
 .col-2 .checkin{
-  width: 90%;
+  width: 60%;
 }
 
 .color-box{ /*Awesome background effect, look for better photo*/

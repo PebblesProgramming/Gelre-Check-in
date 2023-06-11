@@ -47,7 +47,7 @@ require_once '../starting/db_connectie.php'; // use this for making connection t
                         </div>
 
                         <div class="input-field button">
-                            <input type="button" value="Log in">
+                            <input type="button" value="Registreer">
                         </div>
 
                         </form>

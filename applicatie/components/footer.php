@@ -1,18 +1,28 @@
-<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="../css/footer.css">
 <body class="footer-body">
 <footer class="footer">
   	 <div class="footer-container">
   	 	<div class="footer-row">
   	 		<div class="footer-col">
-  	 			<h4>company</h4>
+  	 			<h4>Ons Bedrijf</h4>
   	 			<ul class="footer-ul">
-  	 				<li><a href="#">about us</a></li>
-  	 				<li><a href="#">our services</a></li>
+  	 				<li><a href="#">Over ons</a></li>
+  	 				<li><a href="#">Services</a></li>
   	 				<li><a href="#">privacy policy</a></li>
-  	 				<li><a href="#">affiliate program</a></li>
+  	 				<li><a href="#">Onze partners</a></li>
   	 			</ul>
   	 		</div>
   	 		<div class="footer-col">
+  	 			<h4>get help</h4>
+  	 			<ul class="footer-ul">
+  	 				<li><a href="#">FAQ</a></li>
+  	 				<li><a href="#">shipping</a></li>
+  	 				<li><a href="#">returns</a></li>
+  	 				<li><a href="#">order status</a></li>
+  	 				<li><a href="#">payment options</a></li>
+  	 			</ul>
+  	 		</div>
+			   <div class="footer-col">
   	 			<h4>get help</h4>
   	 			<ul class="footer-ul">
   	 				<li><a href="#">FAQ</a></li>

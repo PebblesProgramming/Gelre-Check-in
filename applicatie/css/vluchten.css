@@ -1,0 +1,22 @@
+table{
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    border: solid 2px;
+    width: 80%;
+}
+
+h1{
+    padding-top: 30px;
+   margin-bottom: 50px;
+}
+
+table td{
+    border-bottom: solid 2px;
+    background-color: #fff3ff;
+    border-right: solid 2px;
+}
+
+table tr{ 
+    background: linear-gradient(to right, #fb5283, #ff3527 );
+}
