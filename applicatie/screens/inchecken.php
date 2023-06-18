@@ -9,7 +9,9 @@
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
+    <div class="container">
     <?php include_once "../components/navbar.php" ?>
+</div>
 </body>
     <?php include_once "../components/footer.php" ?>
 </html>

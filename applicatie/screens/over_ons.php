@@ -15,9 +15,9 @@ require_once '../querys/vluchtenquery.php';
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
-    <div class="container">
-        
-    PRIVACY VERKLARING
+    <div class="container">        
+    <?php include "../components/navbar.php" ?>
+        OVER ONS
   </div>
   <br>
   <br>

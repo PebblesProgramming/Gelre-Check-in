@@ -20,9 +20,13 @@ require_once '../querys/vluchtenquery.php';
     <?php include "../components/navbar.php" ?>
 
     <h1>Geplande Vluchten</h1>
+    <div class="table-body">
   <?php 
   echo ($html_table);
   ?>
+  </div>
+  <br>
+  <br>
     </div>
 </body>
 <?php include "../components/footer.php" ?>

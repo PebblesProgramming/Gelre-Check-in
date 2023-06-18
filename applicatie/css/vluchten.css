@@ -2,7 +2,7 @@ table{
     margin-left: auto;
     margin-right: auto;
     padding-top: 10px;
-    border: solid 2px;
+   
     width: 80%;
 }
 
@@ -11,12 +11,71 @@ h1{
    margin-bottom: 50px;
 }
 
-table td{
-    border-bottom: solid 2px;
-    background-color: #fff3ff;
-    border-right: solid 2px;
+
+ td{
+    text-align: center;
 }
 
-table tr{ 
+table{
+    border-spacing:0; /* Removes the cell spacing via CSS */
+    border-collapse: collapse;  /* Optional - if you don't want to have double border where cells touch */
+}
+
+tr:hover {
     background: linear-gradient(to right, #fb5283, #ff3527 );
 }
+tr{
+    height: 40px;
+    background-color: rgb(222, 221, 219);
+    border-bottom: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+}
+
+
+th{
+    border: solid 3px;
+}
+
+.table-body{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+table .bekijkVlucht{
+ 
+    width: 80px;
+    border: 0;
+    padding: 10px 1px;
+    outline: none;
+    color: #fff;
+    background: linear-gradient(to right, #fb5283, #ff3527 );
+    border-radius: 6px;
+    cursor: pointer;
+    transition: width 0.5s;
+}
+
+/* VLUCHTINFO */
+
+.filmpagina{
+      list-style-type: none;
+      display:grid;
+      grid-template-columns: 50% 50%;  
+      
+  }
+
+  img{
+    width: 100%;
+    object-fit: contain;
+    max-height: 105%;
+    margin-right: 80%;
+  }
+
+  @media only screen and (max-width:1050px){
+    .filmpagina{
+        /* remove padding when burger menu is fixed*/
+        padding-top: 100px;
+        display: inline-block;
+    }
+  }
+  
