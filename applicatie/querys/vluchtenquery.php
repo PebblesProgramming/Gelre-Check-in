@@ -5,12 +5,12 @@ require_once '../starting/db_connectie.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
-
 $vluchtQuery = 'select vluchtnummer, bestemming, gatecode, 
     	        vertrektijd 
                 from Vlucht';
 
 $data = $db->query($vluchtQuery);
+
 
 $html_table = '<table>';
 $html_table = $html_table . '
@@ -34,9 +34,10 @@ while($rij = $data->fetch()) {
                                 <td>$bestemming</td>
                                 <td>$gatecode</td>
                                 <td>$vertrektijd</td>
-                                <td><a href='../screens/vluchtinfo.php'><button class='bekijkVlucht'>Bekijk</button></a></td>
+                                <td><a href='../screens/vluchtinfo.php?id=$vluchtnummer'><button class='bekijkVlucht'>Bekijk</button></a></td>
                                 </tr>";
   }
+
 
 $html_table = $html_table . "</table>";
 

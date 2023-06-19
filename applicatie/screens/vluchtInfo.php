@@ -1,6 +1,12 @@
 <?php
-require_once '../querys/vluchtinfoquery.php';
+require_once '../starting/db_connectie.php';
+
+// maak verbinding met de database (zie db_connection.php)
+$db = maakVerbinding();
+
+require_once '../querys/vluchtenInfoQuery.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,31 +21,14 @@ require_once '../querys/vluchtinfoquery.php';
 <body>
     <div class="container">
     <?php include "../components/navbar.php" ?>
- 
-    <h1> Vlucht </h1>
-            <br>
-    <section class="filmpagina">
-        <?php
-        // replace with my own variable 
-        //echo $filmInfo; ?>
+    <br>
+    <section class="vluchtpagina">
         <img src="../images/vliegtuig.png"/>
         <section class="film_beschrijving">
-            <h2>Jaar: </h2>
-            <br>
-            <h2>Duur:</h2>
-            <br>
-            <h2>Regisseur: /h2>
-            <br>
-            <h2>Hoofdrolspelers:  <?php    ?></h2>
-            <br>
-            <h2>Samenvatting:</h2>
-            <br>
-            <p>
-            </p>
-            <h2>Vorige deel:  </h2>
-            <br>
-            <!-- <a href="https://youtu.be/Ba0fm-6q6QQ"><h2>Trailer Link</h2></a> -->
-            <button>Boek</button><a href="#"></a>
+        <?php 
+        echo $vluchtenLijst; 
+            ?>
+            
         </section>
 
     </section>

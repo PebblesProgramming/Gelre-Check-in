@@ -57,11 +57,20 @@ table .bekijkVlucht{
 
 /* VLUCHTINFO */
 
-.filmpagina{
+.vluchtpagina{
       list-style-type: none;
       display:grid;
       grid-template-columns: 50% 50%;  
       
+  }
+
+  h1 {
+    text-align: center;
+    
+  }
+
+  h2{
+    text-align: center;
   }
 
   img{
@@ -72,7 +81,7 @@ table .bekijkVlucht{
   }
 
   @media only screen and (max-width:1050px){
-    .filmpagina{
+    .vluchtpagina{
         /* remove padding when burger menu is fixed*/
         padding-top: 100px;
         display: inline-block;
