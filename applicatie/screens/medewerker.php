@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 
 <?php
+
+//Controleer of de medewerker is ingelogd, anders doorsturen naar de inlogpagina
+// session_start();
+// if (!isset($_SESSION['ingelogd']) || $_SESSION['ingelogd'] !== true) {
+//     header('Location: ../index.php'); // let op dat de links kloppen het is soms erg verwarrend
+//     exit;
+// }
+
 require_once '../starting/db_connectie.php';
+
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
+
+
+// Debug
+//echo 'Welkom, medewerker!';
 
 ?>
 
@@ -35,6 +48,8 @@ $db = maakVerbinding();
                 </div>
             </div>
         </div>
+        <br>
+        <br>
          <h1 class="h1flights">Recente Vluchten</h1> 
     
         <div class="wrapper">

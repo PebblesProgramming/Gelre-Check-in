@@ -2,8 +2,11 @@
 
 require_once '../starting/db_connectie.php';
  
-// maak verbinding met de database (zie db_connection.php)
+        // maak verbinding met de database (zie db_connection.php)
          $db = maakVerbinding();
+
+         // Controleer of de medewerker is ingelogd, anders doorsturen naar de inlogpagina
+  
          
   ?>
 <!DOCTYPE html>
@@ -19,9 +22,7 @@ require_once '../starting/db_connectie.php';
 </head>
 <body>
     <div class="container">
-        
     <?php include "../components/navbar.php" ?>
-
         <h1>Geplande Vluchten</h1>
         <div class= "row">
     <!-- voor de vlucht -->

@@ -4,6 +4,11 @@
   font-family: Inconsolata;
 }
 
+body {
+  background-color: #f1f1f1;
+  
+}
+
 .container{
   width: 100%;
   min-height: 100vh;
@@ -11,6 +16,7 @@
   padding-right: 8%;
   box-sizing: border-box;
   overflow: hidden;
+  
 }
 
 .navbar{
