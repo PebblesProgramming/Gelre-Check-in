@@ -1,14 +1,10 @@
-<?php 
-
+<?php
 require_once '../starting/db_connectie.php';
- 
-        // maak verbinding met de database (zie db_connection.php)
-         $db = maakVerbinding();
 
-         // Controleer of de medewerker is ingelogd, anders doorsturen naar de inlogpagina
-  
-         
-  ?>
+// maak verbinding met de database (zie db_connection.php)
+$db = maakVerbinding();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,9 +70,9 @@ require_once '../starting/db_connectie.php';
             $selectedAirport = $_POST["airport"];
 
             // Voeg de luchthavenfilter toe aan de query
-            $vluchtQuery = "SELECT vluchtnummer, bestemming, gatecode, vertrektijd 
+            $vluchtQuery = "SELECT vluchtnummer, bestemming, gatecode, vertrektijd, luchthaven 
                             FROM Vlucht 
-                            WHERE luchthavennaam = '$selectedAirport'
+                            WHERE luchthaven = '$selectedAirport'
                             ORDER BY vertrektijd $sort_order";
         }
     } else {
@@ -95,7 +91,9 @@ require_once '../starting/db_connectie.php';
             <th>Bestemming</th>
             <th>Gatecode</th>
             <th>Vertrektijd</th>
-            <th>Bekijk Vlucht</th>
+            <th>Gewicht</th>
+            <th>Aantal Passagiers</th>
+            <th>Status</th>
         </tr>';
 
     while ($rij = $data->fetch()) {
@@ -104,12 +102,15 @@ require_once '../starting/db_connectie.php';
         $gatecode = $rij['gatecode'];
         $vertrektijd = $rij['vertrektijd'];
 
-        $html_table .= "<tr>
-            <td>$vluchtnummer</td>
+        $html_table .= "  
+        <tr onclick=\"window.location.href = '../screens/vluchtinfo.php?id=$vluchtnummer';\">
+        <td>$vluchtnummer</td>
             <td>$bestemming</td>
             <td>$gatecode</td>
             <td>$vertrektijd</td>
-            <td><a href='../screens/vluchtinfo.php?id=$vluchtnummer'><button class='bekijkVlucht'>Bekijk</button></a></td>
+            <td>Gewicht</td>
+            <td>Aantal passagies</td>
+            <td>Status</td>
         </tr>";
     }
 
@@ -124,5 +125,5 @@ require_once '../starting/db_connectie.php';
   <br>
     </div>
 </body>
-<?php include "../components/footer.php" ?>
+
 </html>
