@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-
 <?php
 require_once '../starting/db_connectie.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
-
 ?>
 
 <html lang="en">
@@ -14,74 +12,47 @@ $db = maakVerbinding();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gelre-Check-In</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/vluchtenpagina.css">
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
     <div class="container">
         <?php include "../components/navbar.php" ?>
-        <div class="row">
-            <div class="col-1">
-                <h2> Gelre Check In</h2>
-                <h3> Help met dit dashboard passagiers goed op weg</h3>
-               
-                <a href="../screens/vluchten.php"><button type="button">Vluchten</button></a>
-            </div>
-            <div class="col-2">
-                <img src="../images/checkin.png" class="checkin">
-                <div class="color-box"></div> <!-- Awesome background effect, look for better photo -->
-                <div class="add-btn"> <!-- try and find an awesome implimintation for this -->
-                  <?php
-                    // CHECK ROLE           
-                    // if (isset($_SESSION['rol'])) {
-                    //     $rol = $_SESSION['rol'];
-                    //     echo "Huidige rol: " . $rol;
-                    // } else {
-                    //     echo "Rol niet ingesteld";
-                    // }
-                  ?>
-                   
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-         <h1 class="h1flights">Recente Vluchten</h1> 
-    
-        <div class="wrapper">
-            <?php 
+      <?php 
+  if (isset($_SESSION['passagierid'])) {
+    $passagiernummer = $_SESSION['passagierid'];
 
-            // Ik doe dit zo met de count omdat de LIMIT niet werkt
-         $vluchtQuery = 'SELECT vluchtnummer, bestemming, vertrektijd 
-                FROM Vlucht
-                ORDER BY vertrektijd DESC';
+    $query = "SELECT P.naam AS passagier_naam, V.vluchtnummer, V.vertrektijd, V.bestemming, G.gatecode, L.naam AS luchthaven_naam, B.objectvolgnummer, B.gewicht, IB.balienummer AS inchecken_balienummer
+              FROM Passagier AS P
+              JOIN Vlucht AS V ON P.vluchtnummer = V.vluchtnummer
+              LEFT JOIN Gate AS G ON V.gatecode = G.gatecode
+              JOIN Luchthaven AS L ON V.bestemming = L.luchthavencode
+              LEFT JOIN BagageObject AS B ON P.passagiernummer = B.passagiernummer
+              LEFT JOIN IncheckenBestemming AS IB ON L.luchthavencode = IB.luchthavencode
+              WHERE P.passagiernummer = :passagiernummer";
 
-                $data = $db->query($vluchtQuery);
-                $count = 0;
-                $maxItems = 12;
+    $statement = $db->prepare($query);
+    $statement->bindParam(':passagiernummer', $passagiernummer);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-                while ($rij = $data->fetch()) {
-                if ($count >= $maxItems) {
-                    break;
-                }
-
-                $vluchtnummer = $rij['vluchtnummer'];
-                $bestemming = $rij['bestemming'];
-                $vertrektijd = $rij['vertrektijd'];
-
-                echo '<a href="../screens/vluchtinfo.php?id=' . $vluchtnummer . '">';
-                echo '<div class="item">';
-                echo $vluchtnummer . '<br>';
-                echo $bestemming;
-                echo '</div>';
-                echo '</a>';
-
-                $count++;
+    if ($result) {
+        echo "<h1> Vluchtnummer: " . $result['vluchtnummer'] ." </h1><br>";
+        echo "Naam passagier: " . $result['passagier_naam'] . "<br>";
+        echo "Vertrektijd: " . $result['vertrektijd'] . "<br>";
+        echo "Bestemming: " . $result['bestemming'] . "<br>";
+        echo "Gatecode: " . $result['gatecode'] . "<br>";
+        echo "Luchthaven: " . $result['luchthaven_naam'] . "<br>";
+        echo "Objectvolgnummer bagage: " . $result['objectvolgnummer'] . "<br>";
+        echo "Gewicht bagage: " . $result['gewicht'] . "<br>";
+        echo "Inchecken balienummer: " . $result['inchecken_balienummer'] . "<br>";
+    } else {
+        echo "Geen gegevens gevonden voor de opgegeven passagier.";
+    }
+} else {
+    echo "Geen passagiernummer (id) beschikbaar in de sessie.";
 }
-
 ?>
-        </div>
-        
     </div>
 </body>
-
 </html>

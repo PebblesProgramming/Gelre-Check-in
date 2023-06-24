@@ -5,43 +5,18 @@ require_once '../applicatie/starting/db_connectie.php';
 // Maak verbinding met de database (zie db_connectie.php)
 $db = maakVerbinding();
 
-// // Het statische wachtwoord dat gehasht moet worden
-// $wachtwoord = "12345";
-// // Hash het wachtwoord
-// $gehashtWachtwoord = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
-// if ($_SERVER["REQUEST_METHOD"] === "POST") {
-//     // Controleer of het medewerkercode is ingevuld
-//     if (!empty($_POST['medewerkercode'])) {
-//         // Het ingevoerde medewerkercode bij het inloggen
-//         $ingevoerdeMedewerkercode = $_POST['medewerkercode'];
-
-//         // Controleer of de ingevoerde medewerkercode overeenkomt met het statische wachtwoord
-//         if (password_verify($ingevoerdeMedewerkercode, $gehashtWachtwoord)) {
-//             // Medewerkercode is correct, inloggen is gelukt
-//             $_SESSION['medewerkercode'] = $ingevoerdeMedewerkercode;
-//             // Inloggen is gelukt, stel de sessievariabele in
-//              $_SESSION['ingelogd'] = true;
-//             header("refresh:2;url= ../screens/medewerker.php");
-//             $_SESSION['rol'] = ' medewerker';
-//             echo 'medewerker word ingelogd! je word doorverwezen';
-//             exit;
-//         } else {
-//             // Medewerkercode is incorrect, toon een foutmelding
-//             $foutmeldingMedewerker = "Ongeldige medewerkercode";
-//         }
-//     } else {
-//         // Inloggen is mislukt, toon een foutmelding
-//         $foutmeldingMedewerker = "Vul een medewerkercode in";
-//     }
-//check voor het wachtwoord
+// Check voor het wachtwoord
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Controleer of het geselecteerde balienummer is ingevuld
-    if (!empty($_POST['balienummer'])) {
+    echo "De code voor het medewerkersformulier wordt uitgevoerd.";
+
+    // Controleer of het ingevoerde balienummer en wachtwoord niet leeg zijn
+    if (!empty($_POST['balienummer']) && !empty($_POST['wachtwoord'])) {
         $ingevoerdBalienummer = $_POST['balienummer'];
+        $ingevoerdWachtwoord = $_POST['wachtwoord'];
 
         // Query om het wachtwoord van de geselecteerde balie op te halen
-        $query = "SELECT wachtwoord FROM Balie WHERE balienummer = :balienummer";
+        $query = "SELECT * FROM Balie WHERE balienummer = :balienummer";
         $statement = $db->prepare($query);
         $statement->bindParam(':balienummer', $ingevoerdBalienummer);
         $statement->execute();
@@ -49,28 +24,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Controleer of de balie is gevonden in de database
         if ($result) {
-            $ingevoerdWachtwoord = $_POST['wachtwoord'];
             $correctWachtwoord = $result['wachtwoord'];
+        $correctWachtwoord = password_hash($correctWachtwoord, PASSWORD_DEFAULT);
 
-            // Controleer of het ingevoerde wachtwoord overeenkomt met het opgeslagen wachtwoord
-            if (password_verify($ingevoerdWachtwoord, $correctWachtwoord)) {
-                // Inloggen is gelukt, sla het balienummer op in de sessie
-                $_SESSION['ingelogd'] = true;
-                $_SESSION['balienummer'] = $ingevoerdBalienummer;
-                $_SESSION['rol'] = 'medewerker';
-                header("refresh:2;url=../screens/medewerker.php");
-                echo 'Medewerker wordt ingelogd! Je wordt doorverwezen.';
-                exit;
-            } else {
-                $foutmeldingMedewerker = "Ongeldig wachtwoord";
-            }
-        } else {
-            $foutmeldingMedewerker = "Ongeldig balienummer";
-        }
+    // Controleer of het ingevoerde wachtwoord overeenkomt met het gehashte wachtwoord
+    if (password_verify($ingevoerdWachtwoord, $correctWachtwoord)) {
+        // Inloggen is gelukt, sla het balienummer op in de sessie
+        $_SESSION['ingelogd'] = true;
+        $_SESSION['balienummer'] = $ingevoerdBalienummer; // zodat ik bij alle medewerker paginas alleen bij de info kan die voor deze balie bedoeld is
+        $_SESSION['rol'] = 'medewerker';
+        header("refresh:2;url=../screens/medewerker.php");
+        echo 'Medewerker wordt ingelogd! Je wordt doorverwezen.';
+        exit;
     } else {
-        $foutmeldingMedewerker = "Selecteer een balienummer";
+        $foutmeldingMedewerker = "Ongeldig wachtwoord";
+        echo $ingevoerdBalienummer;
+        echo $ingevoerdWachtwoord;
+        echo $correctWachtwoord;
+        echo $result['balienummer'];
     }
-
+} else {
+    $foutmeldingMedewerker = "Ongeldig balienummer";
+}
+    } else {
+        $foutmeldingMedewerker = "Vul een balienummer en wachtwoord in";
+    }
+}
 
 
 
@@ -89,9 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Controleer of de passagier is gevonden in de database
         if ($result) {
             // Inloggen is gelukt, sla het passagiernummer op in de sessie
-            $_SESSION['ingelogd'] = true;
             header("refresh:2;url= ../screens/passagier.php?id=$ingevoerdPassagiernummer");
-            $_SESSION['rol'] = ' passagier';
+            $_SESSION['ingelogd'] = true;
+            $_SESSION['rol'] = 'passagier';
+            $_SESSION['passagierid'] = $ingevoerdPassagiernummer;// zodat ik op de hele passagier kant bij de juiste info kan
             echo'passagier word ingelogd';
             exit;
         } else {
@@ -102,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Inloggen is mislukt, toon een foutmelding
         $foutmeldingPassagier = "Vul een passagiernummer in";
     }
-}
 
 ?>
 
@@ -123,31 +102,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <h3>Kies welke rol u heeft:</h3>
         </div>
         <div class="container">
-            <h1>Inloggen als medewerker</h1>
-            <form method="POST" action="index.php">
-                <br>
-                <label for="balienummer">Balienummer:</label>
-                <select name="balienummer">
-                        <?php
-                // Query om de balienummers op te halen
-                $query = "SELECT balienummer FROM Balie";
-                $statement = $db->query($query);
-                while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-                    $balienummer = $row['balienummer'];
-                    echo "<option value='$balienummer'>$balienummer</option>";
-                }
-                ?>
-                </select>
-                <br>
-                <label for="wachtwoord">Wachtwoord:</label>
-                <input type="password" id="wachtwoord" name="wachtwoord" required>
-                <br>
-                <input class="button" type="submit" value="Inloggen">
-                <?php if(isset($foutmeldingMedewerker)){
-                    echo "<p>$foutmeldingMedewerker</p>";
-                }?>
-            </form>
-        </div>
+    <h1>Inloggen als medewerker</h1>
+    <form method="POST" action="index.php">
+        <br>
+        <label for="balienummer">Balienummer:</label>
+        <input type="text" id="balienummer" name="balienummer" required>
+        <br>
+        <label for="wachtwoord">Wachtwoord:</label>
+        <input type="password" id="wachtwoord" name="wachtwoord" required>
+        <br>
+        <input class="button" type="submit" value="Inloggen">
+        <?php if(isset($foutmeldingMedewerker)){
+            echo "<p>$foutmeldingMedewerker</p>";
+        }?>
+    </form>
+</div>
         <div class="container">
         <h1>Inloggen als passagier</h1>
         <form method="POST" action="index.php">

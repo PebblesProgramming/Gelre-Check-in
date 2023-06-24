@@ -16,16 +16,14 @@ $db = maakVerbinding();
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
 </head>
 <body>
-    
-<?php
+    <div class="container">  
+    <?php include "../components/navbar.php" ?>
+    <?php
 // Controleer of een ID is doorgegeven vanuit de indexpagina
-if (isset($_GET['id'])) {
-    $passagierId = $_GET['id'];
+if (isset($_SESSION['passagierid'])) {
+    $passagiernummer = $_SESSION['passagierid'];
 
-    $passagierQuery = "SELECT * FROM Passagier WHERE passagiernummer = $passagierId";
-
-
-
+    $passagierQuery = "SELECT * FROM Passagier WHERE passagiernummer = $passagiernummer";
     $passagier = $db->prepare($passagierQuery);
     $passagier = $db->query($passagierQuery); // dit is de netste manier
     
@@ -49,23 +47,9 @@ if (isset($_GET['id'])) {
     echo "<p>Geen passagiersgegevens gevonden.</p>";
 }
 ?>
-    <div class="container">
-        
-    <?php include "../components/navbar.php" ?>
     <h1> Welkom bij Gelre-Check-In!</h1>
-    <h2> Help u zelf en ga snel op reis!</h1>
-   
     <div class="row">
-    <?php       
-    // CHECK ROLE                           
-            // if (isset($_SESSION['rol'])) {
-            //      $rol = $_SESSION['rol'];
-            //   echo "Huidige rol: " . $rol;
-            //     } else {
-            //       echo "Rol niet ingesteld";
-            //             }
-                                                    ?>
-                    <div class="item">
+                    <div class="col-1">
                     <h1>Passagiersgegevens:</h1>
                     <br>
                     <h2>Passagier ID: <?php echo $passagierId; ?></h2>

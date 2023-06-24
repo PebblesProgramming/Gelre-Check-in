@@ -30,4 +30,16 @@ body {
 
 }
   
+.button{
+  width: 140px;
+  border: 0;
+  margin: 3px;
+  padding: 12px 10px;
+  outline: none;
+  color: #fff;
+  background: linear-gradient(to right, #fb5283, #ff3527 );
+  border-radius: 6px;
+  cursor: pointer;
+  transition: width 0.5s;
+}
 

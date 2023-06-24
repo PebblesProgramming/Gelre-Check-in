@@ -3,7 +3,6 @@
 <?php
 
 require_once '../starting/db_connectie.php';
-
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
