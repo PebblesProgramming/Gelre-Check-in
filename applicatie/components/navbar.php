@@ -5,24 +5,14 @@ require_once '../starting/db_connectie.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
-// Controleer of er een zoekopdracht is ingediend
 if (isset($_GET['search'])) {
-    // Haal de ingediende zoekopdracht op
+  
     $zoekterm = $_GET['search'];
-
-    // Valideer en verwerk de zoekterm (bijv. controleren op speciale tekens, SQL-injectie voorkomen)
-
-    // Stuur de gebruiker door naar vluchtinfo.php met het vluchtnummer als parameter
     header("Location: vluchtinfo.php?vluchtnummer=" . urlencode($zoekterm));
-    exit(); // Zorg ervoor dat het verdere script niet wordt uitgevoerd na het doorsturen
+    exit();
 }
-
-
 ?>
-
-
-
-<link rel="stylesheet" href="<?php echo __DIR__.'/../css/style.css'; ?>">
+<link rel="stylesheet" href="../css/style.css'>">
 <div class="navbar">
 <?php
             // Controleer of de sessievariabele voor de rol is ingesteld
@@ -33,7 +23,7 @@ if (isset($_GET['search'])) {
                 if ($rol === 'medewerker') {
                     // Toon de links voor medewerkers
                     ?>
-            <img src="../favicon.ico" class="logo"> 
+            <img src="../favicon.ico" class="logo" alt=""> 
           <?php 
             if(isset($_SESSION['balienummer'])){
                 $balienummer = $_SESSION['balienummer'];
@@ -83,7 +73,7 @@ if (isset($_GET['search'])) {
             }
             ?>
             </nav>
-            <img src="../images/menu.png" class="menu-icon"> <!-- figure thi out without using js -->
+            <img src="../images/menu.png" class="menu-icon" alt=""> <!-- figure thi out without using js -->
         </div>
 
 

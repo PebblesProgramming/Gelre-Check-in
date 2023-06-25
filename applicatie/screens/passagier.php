@@ -2,7 +2,6 @@
 require_once '../starting/db_connectie.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,20 +12,17 @@ $db = maakVerbinding();
     <title>Vluchten</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/vluchten.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> 
 </head>
 <body>
     <div class="container">  
     <?php include "../components/navbar.php" ?>
     <?php
-// Controleer of een ID is doorgegeven vanuit de indexpagina
 if (isset($_SESSION['passagierid'])) {
     $passagiernummer = $_SESSION['passagierid'];
-
     $passagierQuery = "SELECT * FROM Passagier WHERE passagiernummer = $passagiernummer";
     $passagier = $db->prepare($passagierQuery);
-    $passagier = $db->query($passagierQuery); // dit is de netste manier
-    
+    $passagier = $db->query($passagierQuery); // dit is de netste manier 
    while($rij = $passagier->fetch()){
     try{
         $passagierId = $rij['passagiernummer'];
@@ -41,9 +37,8 @@ if (isset($_SESSION['passagierid'])) {
         echo 'er is iets mis gegaan met de database probeer het later opnieuw' .$e->getMessage();
         }
     }  
-
 }else {
-    // Toon een foutmelding als er geen ID is doorgegeven
+    //foutmelding als er geen ID is doorgegeven
     echo "<p>Geen passagiersgegevens gevonden.</p>";
 }
 ?>
@@ -62,8 +57,8 @@ if (isset($_SESSION['passagierid'])) {
 </div>
             <div class="col-2">
                 <img src="../images/checkin.png" class="checkin">
-                <div class="color-box"></div> <!-- Awesome background effect, look for better photo -->
-                <div class="add-btn"> <!-- try and find an awesome implimintation for this -->
+                <div class="color-box"></div> 
+                <div class="add-btn"> 
                   
                    
                 </div>

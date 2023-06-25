@@ -6,7 +6,7 @@ $db = maakVerbinding();
 function checkVluchtenEisen($db) {
     //Kijkt of er aan de eisen van de opdrachtgever word voldaan
 
-    // Query 1: Gewichtslimiet overschreden
+    //gewichtslimiet overschreden
     $gewicht = "SELECT vluchtnummer, SUM(gewicht) AS totaalgewicht
                FROM Passagier p
                JOIN BagageObject b ON p.passagiernummer = b.passagiernummer
@@ -17,10 +17,9 @@ function checkVluchtenEisen($db) {
                  WHERE vluchtnummer = p.vluchtnummer
                )";
 
-    // Voer de query uit en haal de resultaten op
     $gewichtResultaat = $db->query($gewicht);
 
-    // Query 2: Passagierslimiet overschreden
+    //passagierslimiet overschreden
     $passagiers = "SELECT vluchtnummer, COUNT(*) AS passagier_count
                FROM Passagier
                GROUP BY vluchtnummer

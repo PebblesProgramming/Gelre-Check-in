@@ -4,7 +4,6 @@ require_once '../starting/db_connectie.php';
 // Maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 ?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +12,7 @@ $db = maakVerbinding();
     <title>Gelre-Check-In</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/vluchtenpagina.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> 
 </head>
 <body>
     <div class="container">
@@ -42,7 +41,6 @@ $db = maakVerbinding();
                 $statement->bindParam(':passagiernummer', $passagiernummer);
                 $statement->execute();
                 $result = $statement->fetch(PDO::FETCH_ASSOC);
-
                 if ($result) {
                     echo "<h1> Vluchtnummer: " . $result['vluchtnummer'] ." </h1><br>";
                     echo "Naam passagier: " . $result['passagier_naam'] . "<br>";
@@ -59,7 +57,6 @@ $db = maakVerbinding();
             }
             ?>
         </div>
-
         <div class="item">
             <?php
             if ($passagiernummer !== null) {
@@ -93,14 +90,41 @@ $db = maakVerbinding();
         <div class="item">
 
         <?php 
-        // Controleer of het formulier is ingediend
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Haal de ingediende gegevens op
     $passagiernummer = $_POST['passagiernummer'];
-    $objectvolgnummer = $_POST['objectvolgnummer'];
     $gewicht = $_POST['gewicht'];
+    $query = "SELECT MAX(objectvolgnummer) AS max_objectvolgnummer FROM BagageObject WHERE passagiernummer = :passagiernummer";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':passagiernummer', $passagiernummer);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    // als dit het eerste object is word het 0 anders word het 1
+    $objectvolgnummer = $result['max_objectvolgnummer'] !== null ? $result['max_objectvolgnummer'] + 1 : 0;
 
-    // Valideer en verwerk de gegevens (bijv. controleren op lege velden, controleren op numerieke waarden)
+    // Haal het totale gewicht van de bagage van de passagier op
+    $query = "SELECT SUM(gewicht) AS totaal_gewicht FROM BagageObject WHERE passagiernummer = :passagiernummer";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':passagiernummer', $passagiernummer);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    //als er nog geen totaalgewicht is, wordt het huidige gewicht als het totaalgewicht gebruikt. anders word het op bestaande opgeteld
+    $totaal_gewicht = $result['totaal_gewicht'] !== null ? $result['totaal_gewicht'] + $gewicht : $gewicht;
+
+    // Haal het maximale gewicht per persoon op uit de Vlucht-tabel
+    $query = "SELECT max_gewicht_pp FROM Vlucht WHERE vluchtnummer = :vluchtnummer";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':vluchtnummer', $vluchtnummer); // Zorg ervoor dat je het vluchtnummer hebt, zodat je het kunt binden aan de parameter
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $max_gewicht_pp = $result['max_gewicht_pp'];
+
+    // Controleer of het totale gewicht per persoon het maximale gewicht overschrijdt
+    if ($totaal_gewicht > $max_gewicht_pp) {
+        echo "Fout: Het totale gewicht per persoon overschrijdt het maximale gewicht toegestaan voor deze vlucht.";
+        return; // Stop de verdere verwerking als er een fout is opgetreden
+    }
 
     // Bereid de SQL-query voor
     $query = "INSERT INTO BagageObject (passagiernummer, objectvolgnummer, gewicht)
@@ -116,25 +140,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Voer de query uit
     if ($statement->execute()) {
-        // Bagage succesvol toegevoegd
         echo "Bagage is succesvol toegevoegd.";
     } else {
-        // Er is een fout opgetreden bij het toevoegen van de bagage
         echo "Er is een fout opgetreden bij het toevoegen van de bagage.";
     }
 }
 
 ?>
-    <h2>Bagage toevoegen</h2>
-    <form action="" method="POST">
-        <input type="hidden" name="passagiernummer" value="<?php echo $passagiernummer; ?>">
-        <label for="objectvolgnummer">Objectvolgnummer:</label>
-        <input type="text" name="objectvolgnummer" id="objectvolgnummer">
-        <label for="gewicht">Gewicht:</label>
-        <input type="text" name="gewicht" id="gewicht">
-        <button type="submit">Toevoegen</button>
-    </form>
-</div>
-    </div>
-</body>
-</html>
+<h2>Bagage toevoegen</h2>
+<form action="" method="POST">
+    <input type="hidden" name="passagiernummer" value="<?php echo $passagiernummer; ?>">
+    <input type="hidden" name="objectvolgnummer" value="<?php echo $objectvolgnummer; ?>">
+    <label for="gewicht">Gewicht:</label>
+    <input type="text" name="gewicht" id="gewicht" required>
+    <button type="submit">Toevoegen</button>
+</form>
+

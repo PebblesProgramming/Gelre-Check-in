@@ -66,16 +66,7 @@ $db = maakVerbinding();
                     toonVluchtinformatie($vluchtnummer);
                 } 
             ?>
-            <button class="actie">Boek</button><a href="#"></a>
         </div>
-
-        
-        <!--PASSAGIERSLIJST-->
-        <div class="item">
-        <?php 
-            ?>
-        </div>
-    
     </div>
 </div>
 </body>

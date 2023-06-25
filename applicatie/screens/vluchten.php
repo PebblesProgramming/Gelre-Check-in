@@ -1,6 +1,5 @@
 <?php
 require_once '../starting/db_connectie.php';
-require_once '../starting/check-aantalEnGewicht.php';
 // Maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
@@ -15,7 +14,7 @@ $db = maakVerbinding();
     <title>Vluchten</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/vluchten.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'>
 </head>
 <body>
     <div class="container">
@@ -25,14 +24,14 @@ $db = maakVerbinding();
           if (isset($_SESSION['rol'])) {
             $rol = $_SESSION['rol'];
             if($rol == 'medewerker'){
-            checkVluchtenEisen($db);
+            echo '';
             } else{
                 echo' <h2> Neem een kijkje naar alle vluchten! </h2><br>';
             }
           }
   ?>
         <div class= "row">
-            <!-- voor de vlucht -->
+            <!-- voor de tijden -->
             <form method="POST" action="">
                 <select name="sort_order">
                     <option value="ASC">Oplopend</option>
@@ -41,9 +40,9 @@ $db = maakVerbinding();
                 <input type="submit" value="Sorteren">
             </form>
 
-            <!-- voor de vluchthavens -->
+            <!-- voor de luchthavens -->
             <form method="POST" action="">
-                <input type="hidden" name="sort_order" value="<?php echo isset($_POST['sort_order']) ? $_POST['sort_order'] : 'ASC'; ?>">
+                <input type="hidden" name="sort_order" value="<?php echo isset($_POST['sort_order']) ? $_POST['sort_order'] : ''; ?>">
                 <select name="airport">
                     <?php
                     // Query om alle luchthavens op te halen uit de tabel "Luchthaven"

@@ -6,9 +6,7 @@ require_once '../starting/db_connectie.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 $success = false;
-// Controleer of het formulier voor het toevoegen van een passagier is verzonden
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["passagiernummer"])) {
-    // Ontvang de ingevulde waarden
     $passagiernummer = $_POST["passagiernummer"];
     $naam = $_POST["naam"];
     $vluchtnummer = $_POST["vluchtnummer"];
@@ -16,20 +14,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["passagiernummer"])) {
     $balienummer = $_POST["balienummer"];
     $stoel = $_POST["stoel"];
     $inchecktijdstip = $_POST["inchecktijdstip"];
-  // Converteer het inchecktijdstip naar het juiste databaseformaat
   $inchecktijdstipDatabase = date('Y-m-d H:i:s', strtotime($inchecktijdstip));
 
-  // Voeg de passagier toe aan de database
+  try{
   $passagierQuery = "INSERT INTO Passagier (passagiernummer, naam, vluchtnummer, geslacht, balienummer, stoel, inchecktijdstip)
                   VALUES ('$passagiernummer', '$naam', '$vluchtnummer', '$geslacht', '$balienummer', '$stoel', '$inchecktijdstipDatabase')";
-  $db->query($passagierQuery);
-    //was succesvol
+   $statement = $db->prepare($passagierQuery);               
+    $statement->execute();
     $success = true;
+  }catch (PDOException $e) {
+    $success = false;
+    echo "Er is een fout opgetreden: " . $e->getMessage();
 }
-
+}
 ?>
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["passagiernummer"])) {
     <title>Gelre-Check-In</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/vluchtenpagina.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> 
 </head>
 <body>
     <div class="container">

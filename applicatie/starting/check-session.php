@@ -1,7 +1,7 @@
 
 <?php
-// Controleer of de medewerker is ingelogd, anders doorsturen naar de inlogpagina
-       session_start(); //de sessie check word hier neergezet omdat de navbar overal word gebruikt
+
+       session_start(); 
 
        require_once '../starting/toegangscontrole.php';
 
@@ -11,7 +11,7 @@
        exit;
        }
 
-// Controleer de autorisatie op basis van de gebruikersrol
+//controleer rol en acces
 $toegestaneRollen = array(
        'passagier.php' => array('passagier'), 
        'boekingen.php' => array('passagier', 'medewerker'),

@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+
 
 <?php
-
 require_once '../starting/db_connectie.php';
+require_once '../starting/check-aantalEnGewicht.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
 ?>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,13 +24,12 @@ $db = maakVerbinding();
             <div class="col-1">
                 <h2> Gelre Check In</h2>
                 <h3> Help met dit dashboard passagiers goed op weg</h3>
-               
                 <a href="../screens/vluchten.php"><button type="button">Vluchten</button></a>
             </div>
             <div class="col-2">
                 <img src="../images/checkin.png" class="checkin">
-                <div class="color-box"></div> <!-- Awesome background effect, look for better photo -->
-                <div class="add-btn"> <!-- try and find an awesome implimintation for this -->      
+                <div class="color-box"></div>
+                <div class="add-btn">     
                 </div>
             </div>
         </div>
@@ -44,7 +43,19 @@ $db = maakVerbinding();
             <button type="submit">Verzenden</button>
         </form>
 </div>
-        
+<div class="item">
+    <h1> Actie vereist</h1>
+    <br>
+    <?php
+    if (isset($_SESSION['rol'])) {
+            $rol = $_SESSION['rol'];
+            if($rol == 'medewerker'){
+            checkVluchtenEisen($db);
+            } else{
+                echo' <h2> Neem een kijkje naar alle vluchten! </h2><br>';
+            }
+          }
+  ?>
     </div>
 </body>
 

@@ -16,29 +16,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["vluchtnummer"])) {
     $vertrektijd = $_POST["vertrektijd"];
     $maatschappijcode = $_POST["maatschappijcode"];
 
-    try {
-        // Converteer de vertrektijd naar het juiste databaseformaat
-        $vertrektijdDatabase = date('Y-m-d H:i:s', strtotime($vertrektijd));
+    // doe de juist database format voor de datum
+    $vertrektijdDatabase = date('Y-m-d H:i:s', strtotime($vertrektijd));
 
+    try {
         // Voeg de vlucht toe aan de database
         $vluchtQuery = "INSERT INTO Vlucht (vluchtnummer, bestemming, gatecode, max_aantal, max_gewicht_pp, max_totaalgewicht, vertrektijd, maatschappijcode)
                         VALUES ('$vluchtnummer', '$bestemming', '$gatecode', '$max_aantal', '$max_gewicht_pp', '$max_totaalgewicht', '$vertrektijdDatabase', '$maatschappijcode')";
-
-        // Voorbereiden van de query
         $statement = $db->prepare($vluchtQuery);
-        // Uitvoeren van de query
         $statement->execute();
-
-        // Succesmelding
         $success = true;
     } catch (PDOException $e) {
-        // Foutmelding
         echo "Er is een fout opgetreden bij het toevoegen van de vlucht: " . $e->getMessage();
     }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["vluchtnummer"])) {
     <title>Vluchten</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/vluchtenpagina.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> 
 </head>
 <body>
     <div class="container">
