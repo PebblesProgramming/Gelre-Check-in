@@ -30,57 +30,20 @@ $db = maakVerbinding();
             <div class="col-2">
                 <img src="../images/checkin.png" class="checkin">
                 <div class="color-box"></div> <!-- Awesome background effect, look for better photo -->
-                <div class="add-btn"> <!-- try and find an awesome implimintation for this -->
-                  <?php
-                    // CHECK ROLE           
-                    // if (isset($_SESSION['rol'])) {
-                    //     $rol = $_SESSION['rol'];
-                    //     echo "Huidige rol: " . $rol;
-                    // } else {
-                    //     echo "Rol niet ingesteld";
-                    // }
-                  ?>
-                   
+                <div class="add-btn"> <!-- try and find an awesome implimintation for this -->      
                 </div>
             </div>
         </div>
         <br>
         <br>
-         <h1 class="h1flights">Recente Vluchten</h1> 
-    
-        <div class="wrapper">
-            <?php 
-
-            // Ik doe dit zo met de count omdat de LIMIT niet werkt
-         $vluchtQuery = 'SELECT vluchtnummer, bestemming, vertrektijd 
-                FROM Vlucht
-                ORDER BY vertrektijd DESC';
-
-                $data = $db->query($vluchtQuery);
-                $count = 0;
-                $maxItems = 12;
-
-                while ($rij = $data->fetch()) {
-                if ($count >= $maxItems) {
-                    break;
-                }
-
-                $vluchtnummer = $rij['vluchtnummer'];
-                $bestemming = $rij['bestemming'];
-                $vertrektijd = $rij['vertrektijd'];
-
-                echo '<a href="../screens/vluchtinfo.php?id=' . $vluchtnummer . '">';
-                echo '<div class="item">';
-                echo $vluchtnummer . '<br>';
-                echo $bestemming;
-                echo '</div>';
-                echo '</a>';
-
-                $count++;
-}
-
-?>
-        </div>
+        <div class="item">
+         <h1>Zoek een passagier!</h1> 
+         <br>
+         <form action="boekingen.php" method="get">
+            <input type="text" name="passagiernummer" placeholder="Passagiernummer" required>
+            <button type="submit">Verzenden</button>
+        </form>
+</div>
         
     </div>
 </body>

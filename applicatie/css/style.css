@@ -46,6 +46,17 @@ body {
   display: block;
 }
 
+
+.item{
+  margin: 10% auto;
+  max-width: 80%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.1);
+
+}
+
 .dropdown-content a:hover {
   background-color: #f1f1f1;
 }

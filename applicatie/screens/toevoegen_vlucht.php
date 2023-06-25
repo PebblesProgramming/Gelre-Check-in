@@ -17,9 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["vluchtnummer"])) {
     $maatschappijcode = $_POST["maatschappijcode"];
 
     try {
+        // Converteer de vertrektijd naar het juiste databaseformaat
+        $vertrektijdDatabase = date('Y-m-d H:i:s', strtotime($vertrektijd));
+
         // Voeg de vlucht toe aan de database
         $vluchtQuery = "INSERT INTO Vlucht (vluchtnummer, bestemming, gatecode, max_aantal, max_gewicht_pp, max_totaalgewicht, vertrektijd, maatschappijcode)
-                        VALUES ('$vluchtnummer', '$bestemming', '$gatecode', '$max_aantal', '$max_gewicht_pp', '$max_totaalgewicht', '$vertrektijd', '$maatschappijcode')";
+                        VALUES ('$vluchtnummer', '$bestemming', '$gatecode', '$max_aantal', '$max_gewicht_pp', '$max_totaalgewicht', '$vertrektijdDatabase', '$maatschappijcode')";
 
         // Voorbereiden van de query
         $statement = $db->prepare($vluchtQuery);

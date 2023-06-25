@@ -14,12 +14,13 @@
 // Controleer de autorisatie op basis van de gebruikersrol
 $toegestaneRollen = array(
        'passagier.php' => array('passagier'), 
-       'boekingen.php' => array('passagier'),
+       'boekingen.php' => array('passagier', 'medewerker'),
        'uitloggen.php' => array('medewerker', 'passagier'), 
        'medewerker.php'=> array('medewerker'),
        'passagiers_medewerker.php'=>array('medewerker'),
        'vluchten.php'=>array('medewerker' , 'passagier'),
        'toevoegen_medewerker.php'=>array('medewerker')
+   
    );
    
    $currentPagina = basename($_SERVER['PHP_SELF']); // dit is de pagina waar een user zich op dat moment bevind

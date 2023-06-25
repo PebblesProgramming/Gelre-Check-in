@@ -1,6 +1,6 @@
 <?php
 require_once '../starting/db_connectie.php';
-
+require_once '../starting/check-aantalEnGewicht.php';
 // Maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
@@ -21,6 +21,16 @@ $db = maakVerbinding();
     <div class="container">
     <?php include "../components/navbar.php" ?>
         <h1>Geplande Vluchten</h1>
+        <?php
+          if (isset($_SESSION['rol'])) {
+            $rol = $_SESSION['rol'];
+            if($rol == 'medewerker'){
+            checkVluchtenEisen($db);
+            } else{
+                echo' <h2> Neem een kijkje naar alle vluchten! </h2><br>';
+            }
+          }
+  ?>
         <div class= "row">
             <!-- voor de vlucht -->
             <form method="POST" action="">
@@ -97,7 +107,7 @@ $db = maakVerbinding();
                     <th>Gatecode</th>
                     <th>Vertrektijd</th>
                     <th>Luchthaven</th>
-                    <th>Status</th>
+                   
                 </tr>';
 
             while ($rij = $data->fetch()) {
@@ -114,7 +124,7 @@ $db = maakVerbinding();
                     <td>$gatecode</td>
                     <td>$vertrektijd</td>
                     <td>$luchthaven</td>
-                    <td>Status</td>
+                    
                 </tr>";
             }
 

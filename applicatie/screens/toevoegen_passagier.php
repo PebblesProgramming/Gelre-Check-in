@@ -16,11 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["passagiernummer"])) {
     $balienummer = $_POST["balienummer"];
     $stoel = $_POST["stoel"];
     $inchecktijdstip = $_POST["inchecktijdstip"];
+  // Converteer het inchecktijdstip naar het juiste databaseformaat
+  $inchecktijdstipDatabase = date('Y-m-d H:i:s', strtotime($inchecktijdstip));
 
-    // Voeg de passagier toe aan de database
-    $passagierQuery = "INSERT INTO Passagier (passagiernummer, naam, vluchtnummer, geslacht, balienummer, stoel, inchecktijdstip)
-                    VALUES ('$passagiernummer', '$naam', '$vluchtnummer', '$geslacht', '$balienummer', '$stoel', '$inchecktijdstip')";
-    $db->query($passagierQuery);
+  // Voeg de passagier toe aan de database
+  $passagierQuery = "INSERT INTO Passagier (passagiernummer, naam, vluchtnummer, geslacht, balienummer, stoel, inchecktijdstip)
+                  VALUES ('$passagiernummer', '$naam', '$vluchtnummer', '$geslacht', '$balienummer', '$stoel', '$inchecktijdstipDatabase')";
+  $db->query($passagierQuery);
     //was succesvol
     $success = true;
 }
@@ -73,4 +75,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["passagiernummer"])) {
 </body>
 </html>
 
-<

@@ -21,32 +21,30 @@ if (isset($_GET['search'])) {
 ?>
 
 
-<link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet" href="<?php echo __DIR__.'/../css/style.css'; ?>">
 <div class="navbar">
-            <img src="../favicon.ico" class="logo"> 
-            
-            <nav>
-            <?php
+<?php
             // Controleer of de sessievariabele voor de rol is ingesteld
             if (isset($_SESSION['rol'])) {
                 // Haal de rol op uit de sessievariabele
                 $rol = $_SESSION['rol'];
-                // Controleer of de sessievariabele 'passagierid' is ingesteld
-                    // if (isset($_SESSION['passagierid'])) {
-                    //     // Sessievariabele is ingesteld, haal de waarde op
-                    //     $passagierid = $_SESSION['passagierid'];
-
-                    //     // Gebruik de waarde van $passagierid zoals gewenst
-                    //     echo "Passagier ID: " . $passagierid;
-                    // } else {
-                    //     // Sessievariabele is niet ingesteld
-                    //     echo "Passagier ID is niet beschikbaar";
-                    // }
-
                 // Pas de links aan op basis van de rol
                 if ($rol === 'medewerker') {
                     // Toon de links voor medewerkers
                     ?>
+            <img src="../favicon.ico" class="logo"> 
+          <?php 
+            if(isset($_SESSION['balienummer'])){
+                $balienummer = $_SESSION['balienummer'];
+                echo "BALIE:  $balienummer";
+            }else{
+                echo "balienumemr niet gevonden";
+            }
+            
+             ?>
+            <nav>
+            
                     <ul>
                     <li>
                     <form action="" method="GET"> <!--Voor toevoegen naam user?-->
@@ -54,7 +52,6 @@ if (isset($_GET['search'])) {
                         <button type="submit">Zoeken</button>
                     </form></li>
                         <li><a href="medewerker.php">Dashboard</a></li>
-                        <li><a href="passagiers_medewerker.php">Passagiers</a></li>
                         <li><a href="vluchten.php">Vluchten</a></li>
                         <li class="dropdown">
                         <a href="#" class="dropbtn">Toevoegen</a>
