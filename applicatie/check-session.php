@@ -1,9 +1,8 @@
 
 <?php
-
        session_start(); 
 
-       require_once '../starting/toegangscontrole.php';
+       require_once '../toegangscontrole.php';
 
        if (!isset($_SESSION['ingelogd']) || $_SESSION['ingelogd'] !== true) {
        header('refresh:2;url= ../index.php');

@@ -1,8 +1,4 @@
 <?php
-require_once '../starting/db_connectie.php';
-// maak verbinding met de database (zie db_connection.php)
-$db = maakVerbinding();
-
 function checkVluchtenEisen($db) {
     //Kijkt of er aan de eisen van de opdrachtgever word voldaan
 
@@ -29,7 +25,7 @@ function checkVluchtenEisen($db) {
                  WHERE vluchtnummer = Passagier.vluchtnummer
                )";
 
-    // Voer de query uit en haal de resultaten op
+ 
     $passagierResultaat = $db->query($passagiers);
 
     echo "<h2>Vluchten die niet aan de eisen voldoen:</h2>";

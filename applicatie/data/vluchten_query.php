@@ -1,68 +1,8 @@
 <?php
-require_once '../starting/db_connectie.php';
+require_once '../db_connectie.php';
 // Maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vluchten</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/vluchten.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'>
-</head>
-<body>
-    <div class="container">
-    <?php include "../components/navbar.php" ?>
-        <h1>Geplande Vluchten</h1>
-        <?php
-          if (isset($_SESSION['rol'])) {
-            $rol = $_SESSION['rol'];
-            if($rol == 'medewerker'){
-            echo '';
-            } else{
-                echo' <h2> Neem een kijkje naar alle vluchten! </h2><br>';
-            }
-          }
-  ?>
-        <div class= "row">
-            <!-- voor de tijden -->
-            <form method="POST" action="">
-                <select name="sort_order">
-                    <option value="ASC">Oplopend</option>
-                    <option value="DESC">Aflopend</option>
-                </select>
-                <input type="submit" value="Sorteren">
-            </form>
-
-            <!-- voor de luchthavens -->
-            <form method="POST" action="">
-                <input type="hidden" name="sort_order" value="<?php echo isset($_POST['sort_order']) ? $_POST['sort_order'] : ''; ?>">
-                <select name="airport">
-                    <?php
-                    // Query om alle luchthavens op te halen uit de tabel "Luchthaven"
-                    $airportQuery = "SELECT naam FROM Luchthaven";
-                    $airportData = $db->query($airportQuery);
-
-                    // Loop door de resultaten en genereer de opties voor de dropdown
-                    while ($row = $airportData->fetch()) {
-                        $airportName = $row['naam'];
-                        echo "<option value='$airportName'>$airportName</option>";
-                    }
-                    ?>
-                </select>
-                <input type="submit" value="Filteren">
-            </form>
-        </div>
-
-        <div class="table-body">
-            <?php
-            // Controleer of het formulier is verzonden
+// Controleer of het formulier is verzonden
             if (isset($_POST["sort_order"])) {
                 // Controleer of de sorteerwaarde is ingesteld
                 $sort_order = $_POST["sort_order"];
@@ -117,7 +57,7 @@ $db = maakVerbinding();
                 $luchthaven = $rij['luchthaven'];
 
                 $html_table .= "  
-                <tr onclick=\"window.location.href = '../screens/vluchtinfo.php?id=$vluchtnummer';\">
+                <tr onclick=\"window.location.href = '../public/vluchtinfo.php?id=$vluchtnummer';\">
                     <td>$vluchtnummer</td>
                     <td>$bestemming</td>
                     <td>$gatecode</td>
@@ -127,14 +67,44 @@ $db = maakVerbinding();
                 </tr>";
             }
 
-            $html_table .= "</table>";
+         $html_table .= "</table>";
+        
 
-            echo $html_table;
+         function displaySortForm()
+         {
+             ?>
+             <form method="POST" action="">
+                 <select name="sort_order">
+                     <option value="ASC">Oplopend</option>
+                     <option value="DESC">Aflopend</option>
+                 </select>
+                 <input type="submit" value="Sorteren">
+             </form>
+             <?php
+         }
+         
+         function displayAirportFilterForm()
+         {
+             global $db;
+         
+             ?>
+             <form method="POST" action="">
+                 <input type="hidden" name="sort_order" value="<?php echo isset($_POST['sort_order']) ? $_POST['sort_order'] : ''; ?>">
+                 <select name="airport">
+                     <?php
+                     $airportQuery = "SELECT naam FROM Luchthaven";
+                     $airportData = $db->query($airportQuery);
+         
+                     while ($row = $airportData->fetch()) {
+                         $airportName = $row['naam'];
+                         echo "<option value='$airportName'>$airportName</option>";
+                     }
+                     ?>
+                 </select>
+                 <input type="submit" value="Filteren">
+             </form>
+             <?php
+         }
+         ?>
+     
             ?>
-        </div>
-
-        <br>
-        <br>
-    </div>
-</body>
-</html>

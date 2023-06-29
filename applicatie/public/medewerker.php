@@ -1,8 +1,6 @@
-
-
 <?php
-require_once '../starting/db_connectie.php';
-require_once '../starting/check-aantalEnGewicht.php';
+require_once '../db_connectie.php';
+require_once '../data/check-aantalEnGewicht.php';
 // maak verbinding met de database (zie db_connection.php)
 $db = maakVerbinding();
 
@@ -19,7 +17,7 @@ $db = maakVerbinding();
 </head>
 <body>
     <div class="container">
-        <?php include "../components/navbar.php" ?>
+        <?php include "../public/navbar.php" ?>
         <div class="row">
             <div class="col-1">
                 <h2> Gelre Check In</h2>

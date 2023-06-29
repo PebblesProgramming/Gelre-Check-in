@@ -1,33 +1,9 @@
+
+
 <?php
-
-require_once '../starting/db_connectie.php';
-
-// maak verbinding met de database (zie db_connection.php)
-$db = maakVerbinding();
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vluchten</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/vluchtenpagina.css">
-    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'> <!--custom font, might change later-->
-</head>
-<body>
-    <div class="container">
-<?php include "../components/navbar.php" ?>
-    <div class="container2">
-
-       <div class="item">
-        <?php 
         // Functie om vluchtinformatie weer te geven
-        function toonVluchtinformatie($vluchtnummer) {
-            global $db;
+        function toonVluchtinformatie($vluchtnummer, $db) {
+           
 
             // Voorbereiden van de query met een prepared statement
             $query = "SELECT * FROM Vlucht WHERE vluchtnummer = :vluchtnummer";
@@ -54,21 +30,3 @@ $db = maakVerbinding();
                 echo "<p>Er is een fout opgetreden bij het ophalen van de vluchtinformatie.</p>";
             }
         }
-                //ZOEKOPDRACHT
-                if (isset($_GET['vluchtnummer'])) {
-                    $vluchtnummer = $_GET['vluchtnummer'];
-                    toonVluchtinformatie($vluchtnummer);
-                } 
-
-                //VIA VLUCHTENLIJST
-                if (isset($_GET['id'])) {
-                    $vluchtnummer = $_GET['id'];
-                    toonVluchtinformatie($vluchtnummer);
-                } 
-            ?>
-        </div>
-    </div>
-</div>
-</body>
-
-</html>
