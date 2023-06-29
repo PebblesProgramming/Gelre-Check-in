@@ -1,12 +1,11 @@
 <?php
 // Functie om het wachtwoord van de geselecteerde balie op te halen
 function getWachtwoord($db, $balienummer) {
-    $query = "SELECT * FROM Balie WHERE balienummer = :balienummer";
+    $query = "SELECT wachtwoord, balienummer FROM Balie WHERE balienummer = :balienummer";
     $statement = $db->prepare($query);
     $statement->bindParam(':balienummer', $balienummer);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
-
     if ($result) {
         return $result['wachtwoord'];
     } else {

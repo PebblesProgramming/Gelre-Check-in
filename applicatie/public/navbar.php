@@ -6,7 +6,6 @@ require_once '../app/filterInput_functie.php';
 $db = maakVerbinding();
 
 if (isset($_GET['search'])) {
-  
     $zoekterm = filterInput($_GET['search']);
     header("Location: vluchtinfo.php?vluchtnummer=" . urlencode($zoekterm));
     exit();

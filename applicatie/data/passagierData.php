@@ -2,7 +2,7 @@
 function getPassengerData($passagiernummer , $db)
 {
 
-    $passagierQuery = "SELECT * FROM Passagier WHERE passagiernummer = :passagiernummer";
+    $passagierQuery = "SELECT passagiernummer, naam, vluchtnummer, geslacht, balienummer, stoel, inchecktijdstip FROM Passagier WHERE passagiernummer = :passagiernummer";
     $passagierStatement = $db->prepare($passagierQuery);
     $passagierStatement->bindParam(':passagiernummer', $passagiernummer);
     $passagierStatement->execute();
