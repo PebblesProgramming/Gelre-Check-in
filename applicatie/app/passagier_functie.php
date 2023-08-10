@@ -22,6 +22,7 @@ function displayPassengerDetails($passengerData)
             <p><strong>Balienummer:</strong> <?php echo $balienummer; ?></p>
             <p><strong>Stoel:</strong> <?php echo $stoel; ?></p>
             <p><strong>Inchecktijdstip:</strong> <?php echo $inchecktijdstip; ?></p>
+            
         </div>
         <div class="col-2">
             <img src="../images/checkin.png" class="checkin">

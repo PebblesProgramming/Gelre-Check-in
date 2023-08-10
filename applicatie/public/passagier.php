@@ -20,20 +20,20 @@ $db = maakVerbinding();
     <div class="container">  
     <?php include "../public/navbar.php" ?>
  
-<?php
-    if (isset($_SESSION['passagierid'])) {
-    $passagiernummer = $_SESSION['passagierid'];
-    $passengerData = getPassengerData($passagiernummer, $db);
+    <?php
+        if (isset($_SESSION['passagierid'])) {
+        $passagiernummer = $_SESSION['passagierid'];
+        $passengerData = getPassengerData($passagiernummer, $db);
 
-    if (!$passengerData) {
-        echo "Geen passagiersgegevens gevonden.";
-        exit;
+        if (!$passengerData) {
+            echo "Geen passagiersgegevens gevonden.";
+            exit;
+        }
+        displayPassengerDetails($passengerData);
+    } else {
+        echo "Geen passagiernummer beschikbaar in de sessie.";
     }
-    displayPassengerDetails($passengerData);
-} else {
-    echo "Geen passagiernummer beschikbaar in de sessie.";
-}
-?>
+    ?>
         </div>
     </div>
 </body>

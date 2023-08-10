@@ -24,21 +24,26 @@ $db = maakVerbinding();
 <?php include "../public/navbar.php" ?>
     <div class="container2">
 
-       <div class="item">
+       <!-- <div class="item"> -->
         <?php 
                 //ZOEKOPDRACHT
                 if (isset($_GET['vluchtnummer'])) {
                     $vluchtnummer = filterInput($_GET['vluchtnummer']);
                     toonVluchtinformatie($vluchtnummer, $db);
+                    echo '<br>';
+                    toonSpecifiekePassagiers($vluchtnummer, $db);
                 } 
 
                 //VIA VLUCHTENLIJST
                 if (isset($_GET['id'])) {
                     $vluchtnummer = $_GET['id'];
                     toonVluchtinformatie($vluchtnummer, $db);
+                    echo '<br>';
+                    toonSpecifiekePassagiers($vluchtnummer, $db);
                 } 
             ?>
-        </div>
+
+          
     </div>
 </div>
 </body>

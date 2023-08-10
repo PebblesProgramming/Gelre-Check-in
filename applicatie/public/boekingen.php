@@ -21,16 +21,40 @@ $db = maakVerbinding();
         <?php include "../public/navbar.php" ?>
         <div class="item">
             <?php 
+             $editMode = isset($_POST['aanpassen']) || (isset($_SESSION['edit_mode']) && $_SESSION['edit_mode']);
+             if (isset($_POST['opslaan'])) {
+                 // Voer hier de code uit om de gegevens in de database bij te werken
+                 // ...
+                 // Zet editMode uit nadat de wijzigingen zijn opgeslagen
+                 $editMode = false;
+                 $_SESSION['edit_mode'] = false;
+             }
+             if (isset($_POST['aanpassen'])) {
+                 $editMode = true;
+                 $_SESSION['edit_mode'] = true;
+             }
             if (isset($_SESSION['passagierid'])) {
                 $passagiernummer = $_SESSION['passagierid'];
             } elseif (isset($_GET['passagiernummer'])) {
                 $passagiernummer = $_GET['passagiernummer'];
             }
-
+         
             if ($passagiernummer !== null) {
                 $result = getPassagierGegevens($passagiernummer,$db);
-
                 if ($result) {
+                    if ($editMode) {
+                        echo '<form method="POST" action="">';
+                        echo "Vluchtnummer: <input type='text' name='vluchtnummer' value='" . $result['vluchtnummer'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo '<button type="submit" name="opslaan">Opslaan</button>';
+                        echo '</form>';
+                    } else{
                     echo "<h1> Vluchtnummer: " . $result['vluchtnummer'] ." </h1><br>";
                     echo "Naam passagier: " . $result['passagier_naam'] . "<br>";
                     echo "Vertrektijd: " . $result['vertrektijd'] . "<br>";
@@ -39,14 +63,22 @@ $db = maakVerbinding();
                     echo "Luchthaven: " . $result['luchthaven_naam'] . "<br>";
                     echo "Maximaal Gewicht aan bagage: " .$result['max_gewicht_pp'] . "<br>";
                     echo "Inchecken balienummer: " . $result['inchecken_balienummer'] . "<br>";
-                } else {
+                    echo '<form method="POST" action="">';
+                    echo '<button type="submit" name="aanpassen">Aanpassen</button>';
+                    echo '</form>';
+            }
+        } else {
                     echo "Geen gegevens gevonden voor de opgegeven passagier.";
                 }
             } else {
                 echo "Geen passagiernummer beschikbaar in de sessie of URL.";
             }
             ?>
+            <br>
+            <!-- <button type="submit" name="edit_mode">Aanpassen</button> -->
+            <!-- <button type="submit" name="aanpassen">Aanpassen</button> -->
         </div>
+        
         <div class="item">
             <?php
             if ($passagiernummer !== null) {
