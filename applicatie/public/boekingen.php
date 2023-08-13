@@ -21,10 +21,62 @@ $db = maakVerbinding();
         <?php include "../public/navbar.php" ?>
         <div class="item">
             <?php 
+
+        if (isset($_SESSION['passagierid'])) {
+            $passagiernummer = $_SESSION['passagierid'];
+        } elseif (isset($_GET['passagiernummer'])) {
+            $passagiernummer = $_GET['passagiernummer'];
+        }
+
              $editMode = isset($_POST['aanpassen']) || (isset($_SESSION['edit_mode']) && $_SESSION['edit_mode']);
              if (isset($_POST['opslaan'])) {
-                 // Voer hier de code uit om de gegevens in de database bij te werken
-                 // ...
+                 // Waarden uit het formulier ophalen
+                $vluchtnummer = $_POST['vluchtnummer'];
+                $passagier_naam = $_POST['passagier_naam'];
+                $vertrektijd = $_POST['vertrektijd'];
+                $bestemming = $_POST['bestemming'];
+                $gatecode = $_POST['gatecode'];
+                $luchthaven_naam = $_POST['luchthaven_naam'];
+                $max_gewicht_pp = $_POST['max_gewicht_pp'];
+                $inchecken_balienummer = $_POST['inchecken_balienummer'];
+
+                try {
+                    // Update Vlucht table
+                    $stmtVlucht = $db->prepare("
+                        UPDATE Vlucht 
+                        SET 
+                            vertrektijd = :vertrektijd,
+                            bestemming = :bestemming,
+                            gatecode = :gatecode,
+                            max_gewicht_pp = :max_gewicht_pp
+                        WHERE vluchtnummer = :vluchtnummer
+                    ");
+                    $stmtVlucht->execute([
+                        ':vluchtnummer' => $vluchtnummer,
+                        ':vertrektijd' => $vertrektijd,
+                        ':bestemming' => $bestemming,
+                        ':gatecode' => $gatecode,
+                        ':max_gewicht_pp' => $max_gewicht_pp
+                    ]);
+                
+                    // Update Passagier table
+                    $stmtPassagier = $db->prepare("
+                        UPDATE Passagier 
+                        SET 
+                            naam = :naam,
+                            vluchtnummer = :vluchtnummer
+                        WHERE passagiernummer = :passagiernummer
+                    ");
+                    $stmtPassagier->execute([
+                        ':naam' => $passagier_naam,
+                        ':vluchtnummer' => $vluchtnummer,
+                        ':passagiernummer' => $passagiernummer
+                    ]);
+                
+                } catch (PDOException $e) {
+                    throw $e;
+                }
+                
                  // Zet editMode uit nadat de wijzigingen zijn opgeslagen
                  $editMode = false;
                  $_SESSION['edit_mode'] = false;
@@ -33,11 +85,7 @@ $db = maakVerbinding();
                  $editMode = true;
                  $_SESSION['edit_mode'] = true;
              }
-            if (isset($_SESSION['passagierid'])) {
-                $passagiernummer = $_SESSION['passagierid'];
-            } elseif (isset($_GET['passagiernummer'])) {
-                $passagiernummer = $_GET['passagiernummer'];
-            }
+      
          
             if ($passagiernummer !== null) {
                 $result = getPassagierGegevens($passagiernummer,$db);
@@ -46,14 +94,16 @@ $db = maakVerbinding();
                         echo '<form method="POST" action="">';
                         echo "Vluchtnummer: <input type='text' name='vluchtnummer' value='" . $result['vluchtnummer'] . "'><br>";
                         echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
-                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
-                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
-                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
-                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
-                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
-                        echo "Naam passagier: <input type='text' name='passagier_naam' value='" . $result['passagier_naam'] . "'><br>";
+                        echo "Naam Vetrektijd: <input type='text' name='vertrektijd' value='" . $result['vertrektijd'] . "'><br>";
+                        echo "Naam Bestemming: <input type='text' name='bestemming' value='" . $result['bestemming'] . "'><br>";
+                        echo "Naam Gatecode: <input type='text' name='gatecode' value='" . $result['gatecode'] . "'><br>";
+                        echo "Naam Luchthaven: <input type='text' name='luchthaven_naam' value='" . $result['luchthaven_naam'] . "'><br>";
+                        echo "Naam Maximaal gewicht aan bagage: <input type='text' name='max_gewicht_pp' value='" . $result['max_gewicht_pp'] . "'><br>";
+                        echo "Naam Inchecken balienummer: <input type='text' name='inchecken_balienummer' value='" . $result['inchecken_balienummer'] . "'><br>";
+                        if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'medewerker') {
                         echo '<button type="submit" name="opslaan">Opslaan</button>';
                         echo '</form>';
+                        }
                     } else{
                     echo "<h1> Vluchtnummer: " . $result['vluchtnummer'] ." </h1><br>";
                     echo "Naam passagier: " . $result['passagier_naam'] . "<br>";
@@ -63,9 +113,12 @@ $db = maakVerbinding();
                     echo "Luchthaven: " . $result['luchthaven_naam'] . "<br>";
                     echo "Maximaal Gewicht aan bagage: " .$result['max_gewicht_pp'] . "<br>";
                     echo "Inchecken balienummer: " . $result['inchecken_balienummer'] . "<br>";
-                    echo '<form method="POST" action="">';
-                    echo '<button type="submit" name="aanpassen">Aanpassen</button>';
-                    echo '</form>';
+                   // Controleer of de rol 'medewerker' is en toon dan de Aanpassen knop
+                    if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'medewerker') {
+                        echo '<form method="POST" action="">';
+                        echo '<button type="submit" name="aanpassen">Aanpassen</button>';
+                        echo '</form>';
+                    }
             }
         } else {
                     echo "Geen gegevens gevonden voor de opgegeven passagier.";
@@ -75,8 +128,6 @@ $db = maakVerbinding();
             }
             ?>
             <br>
-            <!-- <button type="submit" name="edit_mode">Aanpassen</button> -->
-            <!-- <button type="submit" name="aanpassen">Aanpassen</button> -->
         </div>
         
         <div class="item">
